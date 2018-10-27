@@ -30,6 +30,20 @@ I created a Makefile to generate the resource files:
 
 Super-easy, too, if you know how.
 
+### Use own widgets in QtDesigner
+
+I plan to create several custom widgets as own classes with a .ui file. Therefore I need to use those widgets in QtDesigner,
+e.g. to "patch" them together in the main window.
+
+I found out that this is possible in QtDesigner, using the Placeholder for Widgets functionality: You can right-click
+on a widget and choose "Set as placeholder for defined class": You then can define the class that will be injected during runtime.
+
+**Important:** The include file must be the Python module defining the class, not a c header file:
+
+![Class placeholder dialog](doc/images/qdesigner_placeholder_widget.png)
+
+The widget then can be used in QtDesigner. Only drawback: It is only an empty placeholder, so no UI is shown.
+
 22.10.2018 - Idea collection
 -----------------------------
 

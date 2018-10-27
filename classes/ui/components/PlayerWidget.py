@@ -9,8 +9,8 @@ from classes.services.Manager import Manager
 
 class PlayerWidget (QWidget):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent = None):
+        super().__init__(parent)
         self.state = None
         self.initUI()
         self.updateUIState(Manager.mplayer.state())

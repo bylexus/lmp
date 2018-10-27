@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QUrl
-from classes.ui.Main import Main
+from classes.ui.MainWindow import MainWindow
 from classes.ui.LogWin import LogWin
 from classes.log import log
 from classes.services.Manager import Manager
@@ -10,7 +10,7 @@ import resources.icons
 app = QApplication([])
 
 
-mainWin = Main()
+mainWin = MainWindow()
 logWin = LogWin(mainWin)
 logWin.show()
 mainWin.show()

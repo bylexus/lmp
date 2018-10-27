@@ -44,4 +44,14 @@ This is an unordered list of features that MAY be implemented some day - in unkn
     * actual song
     * on-the-fly playlist (e.g. if playing a single album)
 
+Dev Notes
+--------------
 
+* Python >= 3.7 needed
+* Build a Pyhton Virtual Env:
+  * `python3 -m venv ./`
+  * `source bin/activate`
+* Install requirements:
+  * `pip install -r requirements.txt`
+* Freeze requirements:
+  * `pip freeze > requirements.txt`
