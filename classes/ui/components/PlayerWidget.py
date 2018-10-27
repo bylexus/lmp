@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLab
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.Qt import Qt
+from PyQt5 import uic
 from classes.log import log
 from classes.services.Manager import Manager
 
@@ -16,27 +17,15 @@ class PlayerWidget (QWidget):
 
     def initUI(self):
 
-        # Button widget:
-        buttonWidget = QWidget()
-        buttonLayout = QHBoxLayout()
+        # Load .ui:
+        uic.loadUi("ui/PlayerWidget.ui", self)
 
-        self.playBtn = QPushButton("Play")
         self.playBtn.clicked.connect(Manager.mplayer.play)
-        buttonLayout.addWidget(self.playBtn)
-
-        self.pauseBtn = QPushButton("Pause")
         self.pauseBtn.clicked.connect(Manager.mplayer.pause)
-        buttonLayout.addWidget(self.pauseBtn)
-
-        self.stopBtn = QPushButton("Stop")
         self.stopBtn.clicked.connect(Manager.mplayer.stop)
-        buttonLayout.addWidget(self.stopBtn)
-
-        buttonWidget.setLayout(buttonLayout)
 
         # progress slider:
         self.sliderIsPressed = False
-        self.progressSlider = QSlider(Qt.Horizontal)
         self.progressSlider.setMinimum(0)
         self.progressSlider.setMaximum(0)
         self.progressSlider.setTracking(False)
@@ -44,37 +33,12 @@ class PlayerWidget (QWidget):
         self.progressSlider.sliderPressed.connect(self.sliderStartMove)
         self.progressSlider.sliderReleased.connect(self.sliderEndMove)
 
-        # time position label
-        self.positionLabel = QLabel('0:00')
-
-        # duration label
-        self.durationLabel = QLabel()
-
-        # progress widget:
-        progressWidget = QWidget()
-        progressLayout = QHBoxLayout()
-        progressLayout.addWidget(self.positionLabel)
-        progressLayout.addWidget(self.progressSlider)
-        progressLayout.addWidget(self.durationLabel)
-        progressWidget.setLayout(progressLayout)
-
-
-        # Song label:
-        self.songLabel = QLabel()
-
-        # make layout:
-        self.layout = QVBoxLayout()
-        self.layout.addWidget(buttonWidget)
-        self.layout.addWidget(progressWidget)
-        self.layout.addWidget(self.songLabel)
-        self.setLayout(self.layout)
-
         # media player slots connection
         Manager.mplayer.currentMediaChanged.connect(self.mediaChanged)
         Manager.mplayer.mediaStatusChanged.connect(self.mediaStatusChanged)
         Manager.mplayer.stateChanged.connect(self.mediaPlayerStateChanged)
         Manager.mplayer.positionChanged.connect(self.songProgress)
-        Manager.mplayer.durationChanged.connect(self.progressSlider.setMaximum)
+        Manager.mplayer.durationChanged.connect(self.durationUpdated)
 
     @pyqtSlot(QMediaContent)
     def mediaChanged(self, media):
@@ -92,6 +56,11 @@ class PlayerWidget (QWidget):
     def mediaPlayerStateChanged(self, state):
         log.debug("Media Player state change detected: " + str(state))
         self.updateUIState(state)
+
+    @pyqtSlot("qint64")
+    def durationUpdated(self, value):
+        self.progressSlider.setMaximum(value);
+        self.updateTimeLabel(self.durationLabel, value)
 
     @pyqtSlot("qint64")
     def songProgress(self, value):

@@ -5,6 +5,8 @@ from classes.ui.LogWin import LogWin
 from classes.log import log
 from classes.services.Manager import Manager
 
+import resources.icons
+
 app = QApplication([])
 
 

@@ -6,6 +6,30 @@ The sheer flood of information and concepts to learn are overwhelming.
 So I decided to write a Developer's Diary, to keep track of the things I learn, why I made some specific decisions,
 document the progress.
 
+27.10.2018
+--------------
+
+### .ui-Files with QtDesigner
+
+Today I experienced with QtDesigner, creating a .ui-File for the player widget - it worked like a charm, no fiddling, no
+debugging, just load the .ui-File with PyQt5.uic.loadUi, that's it! I'm a bit surprised it was so easy....
+
+### Resources
+
+For the UI file, I want to use FontAwesome icons, the SVG version. Qt knows "resource files", which easily can be
+defined within QtDesigner, too.
+
+After defining the resources, they can be used within QtDesigner.
+But they are not automatically available within the running program: You have to compile the resources and import them in the
+main program.
+
+I created a Makefile to generate the resource files:
+
+* `make` builds all resource files (`.qrc`), using `pyrcc5`, in the `resources/` dir.
+* in the app.py main program, the resources need to be imported: `import resources.icons`, for example.
+
+Super-easy, too, if you know how.
+
 22.10.2018 - Idea collection
 -----------------------------
 
