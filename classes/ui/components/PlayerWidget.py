@@ -78,7 +78,6 @@ class PlayerWidget (QWidget):
 
     @pyqtSlot()
     def sliderEndMove(self):
-        log.debug("Slider value: "+str( self.progressSlider.sliderPosition() ))
         Manager.mplayer.setPosition(self.progressSlider.sliderPosition())
         self.sliderIsPressed = False
 

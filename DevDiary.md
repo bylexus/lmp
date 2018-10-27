@@ -44,6 +44,15 @@ on a widget and choose "Set as placeholder for defined class": You then can defi
 
 The widget then can be used in QtDesigner. Only drawback: It is only an empty placeholder, so no UI is shown.
 
+### Loader animation with animated gif
+
+I wanted to indicate loading / busy status globally in the status bar of the main widget, using an animated gif.
+This was surprisingly easy:
+
+* create a QLabel with a QMovie, which takes an animated gif
+* Add the widget to the main window's statusbar with 'addPermanentWidget'
+* Make a show/hide function/slot in the QApplication class to show/hide it from anywhere
+
 22.10.2018 - Idea collection
 -----------------------------
 

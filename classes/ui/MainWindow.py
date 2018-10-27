@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt5.Qt import Qt
 from PyQt5 import uic
 from classes.log import log
+from classes.ui.components.LoadImage import LoadImage
 
 
 class MainWindow (QMainWindow):
@@ -14,6 +15,10 @@ class MainWindow (QMainWindow):
         uic.loadUi("ui/MainWindow.ui", self)
 
         self.setWindowTitle("Hello, World!")
+
+        self.__loadImg = LoadImage()
+        self.setLoading(False)
+        self.statusbar.addPermanentWidget(self.__loadImg)
 
         # fileMenu = self.menuBar().addMenu("&File")
 
@@ -35,3 +40,7 @@ class MainWindow (QMainWindow):
         else:
             return None
 
+    def setLoading(self, show=False, message=None):
+        self.__loadImg.setVisible(show)
+        if show and message:
+            self.statusbar.showMessage(message)
