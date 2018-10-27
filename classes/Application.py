@@ -20,11 +20,6 @@ class Application(QApplication):
 
         log.debug("Startup completed")
 
-        fileName = self.mainWin.openSelectSongDialog()
-        if fileName:
-            Manager.mplayer.setPlaylistFromSingleFile(QUrl.fromLocalFile(fileName))
-
-    @pyqtSlot(bool)
     def setLoading(self, show=False, message=None):
         self.mainWin.setLoading(show, message)
 

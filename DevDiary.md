@@ -53,6 +53,17 @@ This was surprisingly easy:
 * Add the widget to the main window's statusbar with 'addPermanentWidget'
 * Make a show/hide function/slot in the QApplication class to show/hide it from anywhere
 
+### First steps with non-gui-Threads
+
+Since one of the first tasks in the application would be to scan a dir for sound files, I read about running long-running workers.
+Qt knows QThreadPool and QRunnable: A thread management system designed for that case.
+
+Basically one runs a Task (QRunnable) in a thread pool, and can signal the ui thread via standard signals.
+I had some difficulties at the beginning, because a Worker that inherits from QRunnable cannot (or it seems not to) define
+singals directly: To define signals, the class must inherit from QObject, and that seems to be interferring with QRunnable.
+
+After outsourcing the singnals (`finished`, e.g.) into its own QObject-based class, it worked as expected.
+
 22.10.2018 - Idea collection
 -----------------------------
 
