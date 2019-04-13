@@ -8,10 +8,9 @@ Learning Objectives
 
 With this project, I want to refresh / learn the following things:
 
-* python, especially how to organize a project, dependencies, virtual envs
+* Elektron, the App framework for javascript
 * Project organization: How to organize files / modules / packages
-* QT, with python, so PyQT
-* Play music with Python / QT
+* Play music with Elektron
 * Handle MP3 tags in a (memory) DB
 
 
@@ -46,12 +45,3 @@ This is an unordered list of features that MAY be implemented some day - in unkn
 
 Dev Notes
 --------------
-
-* Python >= 3.7 needed
-* Build a Pyhton Virtual Env:
-  * `python3 -m venv ./`
-  * `source bin/activate`
-* Install requirements:
-  * `pip install -r requirements.txt`
-* Freeze requirements:
-  * `pip freeze > requirements.txt`

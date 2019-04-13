@@ -6,6 +6,10 @@ The sheer flood of information and concepts to learn are overwhelming.
 So I decided to write a Developer's Diary, to keep track of the things I learn, why I made some specific decisions,
 document the progress.
 
+**Note:** On 13.04.2019, I decided to trash the python/Qt idea, and switch to Electron instead. Why? Well, just because. I lost
+interest in python/Qt, as it is "yet another framework" and is nothing really new for me. So I stick to a more familiar environment:
+JavaScript, and try Electron as an App framework instead.
+
 11.11.2018 - Model / DB considerations
 -------------
 
@@ -234,3 +238,21 @@ Voilà!
 Then I did a very brief PyQt Hello World - no surprises here: It just ran out of the box.
 
 
+13.04.2019 - Switching to JavaScript / Electron
+-------------------------------------------------
+
+I decided to stick to what I already know: Web technologies. So I decided that I switch to:
+
+* Electron as an Application platform
+* VueJS as a JavaScript framework
+* Bootstrap (with VueJS) as a CSS base framework
+
+After initial research I found that a lot of boilerplate is needed, as usual :-)
+
+* To make use of Single File Components in VueJS, I need a bundler. So I use webpack for that
+* So first things first: I need to set up the whole webpack stack / config to have:
+  * single file vuejs components
+  * sass / css compiling within these components
+  * have one bundle entry point for my main html
+
+This will take my today's time frame, I guess.

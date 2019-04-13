@@ -1,0 +1,111 @@
+{
+    "name": "lmp",
+    "version": "0.0.1",
+    "description": "Lexus Media Player - my very own media management tool",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "build": "NODE_ENV=production webpack --mode=production",
+        "watch": "NODE_ENV=development webpack --mode=development -d -w"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bylexus/lmp.git"
+    },
+    "author": "Alexander Schenkel <alex+lmp@alexi.ch>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/bylexus/lmp/issues"
+    },
+    "homepage": "https://github.com/bylexus/lmp#readme",
+    "devDependencies": {
+        "bootstrap": "^4.3.1",
+        "bootstrap-vue": "^2.0.0-rc.18",
+        "css-loader": "^2.1.1",
+        "electron": "^4.1.4",
+        "eslint": "^5.16.0",
+        "eslint-config-prettier": "^4.1.0",
+        "eslint-plugin-prettier": "^3.0.1",
+        "eslint-plugin-vue": "^5.2.2",
+        "node-sass": "^4.11.0",
+        "prettier": "^1.17.0",
+        "sass-loader": "^7.1.0",
+        "vue": "^2.6.10",
+        "vue-loader": "^15.7.0",
+        "vue-style-loader": "^4.1.2",
+        "vue-template-compiler": "^2.6.10",
+        "webpack": "^4.30.0",
+        "webpack-cli": "^3.3.0"
+    },
+    "eslintConfig": {
+        "root": true,
+        "extends": [
+            "eslint:recommended",
+            "prettier",
+            "plugin:vue/recommended"
+        ],
+        "parserOptions": {
+            "ecmaVersion": 8
+        },
+        "env": {
+            "browser": true,
+            "es6": true
+        },
+        "plugins": [
+            "prettier",
+            "jasmine"
+        ],
+        "rules": {
+            "prettier/prettier": [
+                "error",
+                {
+                    "singleQuote": true,
+                    "tabWidth": 4,
+                    "printWidth": 120
+                }
+            ],
+            "no-unused-vars": [
+                "error",
+                {
+                    "vars": "all",
+                    "args": "none"
+                }
+            ],
+            "semi": [
+                "error",
+                "always"
+            ],
+            "curly": "error",
+            "eqeqeq": "error",
+            "no-eval": "error",
+            "no-loop-func": "error",
+            "radix": "error",
+            "comma-dangle": "error",
+            "no-undef": "error",
+            "no-console": [
+                "error",
+                {
+                    "allow": [
+                        "log",
+                        "warn",
+                        "error",
+                        "info",
+                        "group",
+                        "groupCollapsed",
+                        "groupEnd",
+                        "trace"
+                    ]
+                }
+            ]
+        },
+        "globals": {}
+    },
+    "prettier": {
+        "printWidth": 120,
+        "tabWidth": 4,
+        "useTabs": false,
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma": "none"
+    }
+}
