@@ -2,15 +2,14 @@
   <div>
     <b-container fluid>
       <MainMenu/>
-      <div class="main">
-        <h1>Hello to lmp!</h1>
-      </div>
+      <Home/>
     </b-container>
   </div>
 </template>
 
 <script>
 import MainMenu from './main-menu/View.vue';
+import Home from './home/View.vue';
 
 export default {
     data() {
@@ -19,14 +18,14 @@ export default {
         };
     },
     components: {
-        MainMenu
+        MainMenu,
+        Home
     }
 };
 </script>
 
 <style lang="scss" scoped>
 .main {
-    margin-left: 250px;
 }
 </style>
 

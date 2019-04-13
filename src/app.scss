@@ -1,5 +1,9 @@
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
 
 html, body {
     font-family: 'Helvetica Neue',Helvetica, sans-serif;
