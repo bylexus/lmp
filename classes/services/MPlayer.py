@@ -5,14 +5,16 @@ class MPlayer(QMediaPlayer):
     def __init__(self):
         super().__init__()
 
+    """
+    @param url: QUrl
+    """
     def setMediaFromUrl(self, url):
-        if not isinstance(url, QUrl):
-            url = QUrl.fromLocalFile(url)
         self.setMedia(QMediaContent(url))
 
+    """
+    @param url: QUrl
+    """
     def setPlaylistFromSingleFile(self, url):
-        if not isinstance(url, QUrl):
-            url = QUrl.fromLocalFile(url)
         lst = QMediaPlaylist(self)
         lst.addMedia(QMediaContent(url))
         lst.setPlaybackMode(QMediaPlaylist.Loop)

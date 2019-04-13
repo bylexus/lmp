@@ -1,11 +1,12 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 from PyQt5.Qt import Qt
-from PyQt5.QtCore import QUrl, QThreadPool
+from PyQt5.QtCore import QUrl, QThreadPool, QSettings
 from PyQt5 import uic
 from classes.log import log
 from classes.ui.components.LoadImage import LoadImage
 from classes.services.Manager import Manager
 from classes.services.ScanDirTask import ScanDirTask
+import classes.Application
 
 class MainWindow (QMainWindow):
     def __init__(self, parent = None):
@@ -26,21 +27,28 @@ class MainWindow (QMainWindow):
         self.actionScanDir.triggered.connect(self.onScanDirAction)
 
     def openSelectSongDialog(self):
-        fileName = QFileDialog.getOpenFileName(self, "Select Song", None, "Audio files (*.aac *.mp3 *.m4a *.ogg *.wav)")
-        log.info("File chosen: "+fileName[0])
-        if fileName:
-            return fileName[0]
+        settings = QSettings()
+        prevDir = settings.value('mainwindow/selectsongdir', QUrl())
+        filters = map(lambda x: '*'+x,classes.Application.Application.SUPPORTED_EXTENSIONS)
+        fileUrl = QFileDialog.getOpenFileUrl(parent = self, caption = "Select Song", filter = "Audio files ({0})".format(filters), directory = str(prevDir))
+        if fileUrl:
+            log.debug(str(fileUrl[0]))
+            settings.setValue('mainwindow/selectsongdir', fileUrl[0])
+            return fileUrl[0]
         else:
             return None
 
     def openSong(self):
         fileName = self.openSelectSongDialog()
         if fileName:
-            Manager.mplayer.setPlaylistFromSingleFile(QUrl.fromLocalFile(fileName))
+            Manager.mplayer.setPlaylistFromSingleFile(fileName)
 
     def onScanDirAction(self):
-        scanDir = QFileDialog.getExistingDirectoryUrl(self, "Choose Directory to scan")
+        settings = QSettings()
+        prevDir = settings.value('mainwindow/scandir', QUrl())
+        scanDir = QFileDialog.getExistingDirectoryUrl(self, "Choose Directory to scan", prevDir)
         if scanDir:
+            settings.setValue('mainwindow/scandir', scanDir)
             QApplication.instance().setLoading(True, "Scan directory " + str(scanDir))
 
             task = ScanDirTask(scanDir)

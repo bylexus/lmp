@@ -6,6 +6,58 @@ The sheer flood of information and concepts to learn are overwhelming.
 So I decided to write a Developer's Diary, to keep track of the things I learn, why I made some specific decisions,
 document the progress.
 
+11.11.2018 - Model / DB considerations
+-------------
+
+I want to store the directories to inspect in a local storage - I will set up a local sqlite db for all data related things,
+so I will also store the read directories in a table:
+
+* Model "MusicDir"
+  * Table: music_dir
+  * props:
+    * id: int, auto-increment
+    * path: string
+    * last_sync: timestamp
+
+Therefore I need to see how this is done in Qt, DB and Model-wise.
+
+So far I learned:
+
+* SQLite has its own unique ID (ROWID, or OID), so it is not necessary to add auto-increment ID columns.
+* SQLite is not "type safe": It knows only a handful of base datatypes, and a column has no fixed type.
+* SQLite knows no datetype data type, instead one can use a simple text column.
+* DB handling in Qt is very easy with the QSqlDatabase, QSqlQuery, QSql*View classes.
+
+I decided to create Model classes which inherit from a QSql*View class. Those models also have a static method for creating
+the underlying table structure (createTable), which is executed during app boot.
+
+29.10.2018 - Reading Audio meta tags
+--------------------------------------
+
+I started investigating audio metadata. After a short Internet search, I found the python library 'mutagen', which
+can extract audio meta data from almost any audio file.
+
+I gave it a short try with walking through some audio folders. It works really easy.
+
+Unfortunately, audio meta tags are all but standardized... every format uses its own meta infos,
+and even Id3V2 has no real "standard" of fields - so this need to be abstracted for every supported type,
+which I will do on another day.
+I guess I will create audio processor classes for each type that is supported by mutagen's FileType base class.
+
+An overview of ID3V2 declared frames (= meta info fields) can be found here:
+
+http://id3.org/id3v2.3.0#Declared_ID3v2_frames
+
+28.10.2018
+-------------
+
+Choosing and playing single files already work - What I missed already was a "remember last opened folder" functionality.
+So I tried the QSettings object today.
+Not much of a surprise here - simple to use. It is even easier than the C++-Version: QSettings.getValue() directly
+returns the originally stored data type - you don't get a QVariant type.
+
+So choosing a single song already remembers the last opened folder so far.
+
 27.10.2018
 --------------
 
@@ -63,6 +115,8 @@ I had some difficulties at the beginning, because a Worker that inherits from QR
 singals directly: To define signals, the class must inherit from QObject, and that seems to be interferring with QRunnable.
 
 After outsourcing the singnals (`finished`, e.g.) into its own QObject-based class, it worked as expected.
+
+See https://www.pymadethis.com/article/multithreading-pyqt-applications-with-qthreadpool/ for a good explanation and example.
 
 22.10.2018 - Idea collection
 -----------------------------
