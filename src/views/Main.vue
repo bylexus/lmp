@@ -2,30 +2,30 @@
   <div>
     <b-container fluid>
       <MainMenu/>
-      <Home/>
+      <router-view class="main"></router-view>
     </b-container>
   </div>
 </template>
 
 <script>
-import MainMenu from './main-menu/View.vue';
-import Home from './home/View.vue';
+import MainMenu from 'views/main-menu/View.vue';
 
 export default {
     data() {
         return {
-            date: new Date()
+            date: new Date(),
         };
     },
     components: {
         MainMenu,
-        Home
-    }
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 .main {
+    margin-left: 250px;
+    width: auto;
 }
 </style>
 

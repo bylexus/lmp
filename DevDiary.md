@@ -256,3 +256,40 @@ After initial research I found that a lot of boilerplate is needed, as usual :-)
   * have one bundle entry point for my main html
 
 This will take my today's time frame, I guess.
+
+So I have implemented a very first proof-of-concept already:
+
+* all build config is done (webpack mainly)
+* FontAwesome is integrated via npm / build via webpack
+* proof-of-concept audio player is working
+
+As a next step I will design the main layout: always available side menu, always visible player (actual song), main window (will
+eventually show songs / library).
+
+19.05.2019
+-----------
+
+Goal: create a Player component, which is playing / displaying the actual song and controls:
+- play, pause, stop, progress etc
+- time info
+- song info
+
+This implies the definition of a Song model.
+
+Progress so far:
+- implemented Vuex with a global app state. Handles one song play state for now.
+- created a PlayerService: a singleton player service that handles playing the actual song.
+  It commits the relevant state changes when playing / changing song etc.
+- The Player view listens to the global state and allows controlling the play.
+- I organised the store into modules, to better separate them: For now, there is there is the
+  'actualSong' module, so the store contains of 'store.actualSong.*' for the actual playing song.
+- Player component / PlayerService already supports loading, start/stop/pause and seeking a song! Wow,
+  that was not so hard after all!
+
+Then I began experimenting with recursively walking a file tree to create an audio file index.
+In electron apps it is possible to access also node.js-own modules like 'fs' or 'pat^'. In the render
+process, this can be aquired using "window.require()".
+I use the walkdir and mime modules to walk and filter audio files. A first experiment works flawlessly.
+
+Also, reading ID3 tags seems to work in a first experiment, using the simple node-id3 library. Great! The biggest hurdles are already taken...
+
