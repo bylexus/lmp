@@ -1,4 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const walkdir = require('walkdir');
+const mime = require('mime');
+const NodeId3 = require('node-id3');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -12,8 +15,8 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            nodeIntegrationInWorker: true
-        }
+            nodeIntegrationInWorker: true,
+        },
     });
 
     // and load the index.html of the app.
@@ -42,3 +45,34 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', app.quit);
+
+ipcMain.on('inspect-dir', (event, searchPath) => {
+    let emitter = walkdir(searchPath, { no_return: true });
+    let promises = [];
+    let found = [];
+    emitter.on('file', (filePath, stat) => {
+        let type = mime.getType(filePath);
+        if (type && type.match(/^audio\//)) {
+            let workingPromise = new Promise((resolve, reject) => {
+                NodeId3.read(filePath, (err, tags) => {
+                    if (!err) {
+                        console.log('ID3 tags for ', filePath, tags);
+                        found.push({
+                            file: filePath,
+                            type,
+                            id3: tags,
+                        });
+                    }
+                    resolve();
+                });
+            });
+            promises.push(workingPromise);
+        }
+    });
+    emitter.on('end', () => {
+        console.log('End walkdir!');
+        Promise.all(promises).then(() => {
+            event.reply('inspect-dir-done', found);
+        });
+    });
+});

@@ -293,3 +293,21 @@ I use the walkdir and mime modules to walk and filter audio files. A first exper
 
 Also, reading ID3 tags seems to work in a first experiment, using the simple node-id3 library. Great! The biggest hurdles are already taken...
 
+This lib is not able to parse MP4 files. It seems there is another one: mp4js, which I will try another day.
+
+21.05.2019
+--------------
+
+yesterday I proof-of-concept the recursive file analyzing. I used walkdir asynchronously in the render thread.
+This seems not to be optimal: I have to sync-require the packages in the Render thread, using window.require(), to
+have access to nodejs-only modules. I want to move those background jobs to the main thread instead,
+using inter-process-communication with ipcMain / ipcRenderer.
+
+Target achieved :-) The inspection process is now done in the main thread,
+while the UI only fires / listen to main thread events.
+
+Refactor: The sync process should be initiated / listened to somewhere
+globally, and also a global syncing state should be set during this time.
+Now it is still done locally in the Settings view, which will get removed
+when the UI changes.
+

@@ -19,6 +19,7 @@
         </b-button>
       </b-col>
     </b-row>
+    <div v-if="syncing">Inspecting dir, please stand by ...</div>
   </b-container>
 </template>
 
@@ -26,34 +27,43 @@
 import types from 'store/mutation-types';
 
 // use electron require for node modules, by accessing global window.require here:
-const walkdir = window.require('walkdir');
-const mime = window.require('mime');
-const NodeId3 = window.require('node-id3');
+// const walkdir = window.require('walkdir');
+// const mime = window.require('mime');
+// const NodeId3 = window.require('node-id3');
+const { ipcRenderer } = window.require('electron');
 
 export default {
     data() {
-        return {};
+        return {
+            syncing: false
+        };
     },
     methods: {
         goBack() {
             this.$router.go(-1);
         },
         folderChosen(dir) {
-            let emitter = walkdir(dir.path, { no_return: true });
-            emitter.on('file', (path, stat) => {
-                let type = mime.getType(path);
-                if (type && type.match(/^audio\//)) {
-                    NodeId3.read(path, (err, tags) => {
-                        if (!err) {
-                            console.log('ID3 tags for ', path, tags);
-                        }
-                    });
-                    // console.log('found: ', type, path, stat);
-                }
+            ipcRenderer.once('inspect-dir-done', (event, arg) => {
+                console.log('inspection done:',arg);
+                this.syncing = false;
             });
-            emitter.on('end', () => {
-                console.log('End!');
-            });
+            this.syncing = true;
+            ipcRenderer.send('inspect-dir', dir.path);
+            // let emitter = walkdir(dir.path, { no_return: true });
+            // emitter.on('file', (path, stat) => {
+            //     let type = mime.getType(path);
+            //     if (type && type.match(/^audio\//)) {
+            //         NodeId3.read(path, (err, tags) => {
+            //             if (!err) {
+            //                 console.log('ID3 tags for ', path, tags);
+            //             }
+            //         });
+            //         // console.log('found: ', type, path, stat);
+            //     }
+            // });
+            // emitter.on('end', () => {
+            //     console.log('End!');
+            // });
         },
     },
     components: {},
