@@ -311,3 +311,11 @@ globally, and also a global syncing state should be set during this time.
 Now it is still done locally in the Settings view, which will get removed
 when the UI changes.
 
+26.05.2019
+----------
+
+Today I created a wrapper around the ipcRenderer.send() / ipcMain.on() mechanism,
+to make "RPC" calls (not quite correct, but let's stick by that name) to the
+main thread easier.
+
+I created a gist for future usage, maybe I will publish it as an NPM module some day: https://gist.github.com/bylexus/062e77b0ed2af3b516d8cc4d34d1d085

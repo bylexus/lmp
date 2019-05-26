@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const walkdir = require('walkdir');
 const mime = require('mime');
 const NodeId3 = require('node-id3');
+const registerMainOperation = require('./src/services/ipcRegisterMainOperation').registerMainOperation;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -46,14 +47,14 @@ app.on('ready', createWindow);
 // Quit when all windows are closed.
 app.on('window-all-closed', app.quit);
 
-ipcMain.on('inspect-dir', (event, searchPath) => {
-    let emitter = walkdir(searchPath, { no_return: true });
+registerMainOperation('inspect-dir', (params, success, reject) => {
+    let emitter = walkdir(params.dir, { no_return: true });
     let promises = [];
     let found = [];
     emitter.on('file', (filePath, stat) => {
         let type = mime.getType(filePath);
         if (type && type.match(/^audio\//)) {
-            let workingPromise = new Promise((resolve, reject) => {
+            let workingPromise = new Promise((iResolve, iReject) => {
                 NodeId3.read(filePath, (err, tags) => {
                     if (!err) {
                         console.log('ID3 tags for ', filePath, tags);
@@ -63,7 +64,7 @@ ipcMain.on('inspect-dir', (event, searchPath) => {
                             id3: tags,
                         });
                     }
-                    resolve();
+                    iResolve();
                 });
             });
             promises.push(workingPromise);
@@ -71,8 +72,11 @@ ipcMain.on('inspect-dir', (event, searchPath) => {
     });
     emitter.on('end', () => {
         console.log('End walkdir!');
-        Promise.all(promises).then(() => {
-            event.reply('inspect-dir-done', found);
-        });
+        Promise.all(promises)
+            .then(() => {
+                success(found);
+            })
+            .catch(reject);
     });
 });
+

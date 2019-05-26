@@ -30,40 +30,31 @@ import types from 'store/mutation-types';
 // const walkdir = window.require('walkdir');
 // const mime = window.require('mime');
 // const NodeId3 = window.require('node-id3');
-const { ipcRenderer } = window.require('electron');
+// const { ipcRenderer } = window.require('electron');
+import { ipcRendererCall as ipcCall } from 'services/ipcRendererCall';
 
 export default {
     data() {
         return {
-            syncing: false
+            syncing: false,
         };
     },
     methods: {
         goBack() {
             this.$router.go(-1);
         },
-        folderChosen(dir) {
-            ipcRenderer.once('inspect-dir-done', (event, arg) => {
-                console.log('inspection done:',arg);
-                this.syncing = false;
-            });
+        async folderChosen(dir) {
             this.syncing = true;
-            ipcRenderer.send('inspect-dir', dir.path);
-            // let emitter = walkdir(dir.path, { no_return: true });
-            // emitter.on('file', (path, stat) => {
-            //     let type = mime.getType(path);
-            //     if (type && type.match(/^audio\//)) {
-            //         NodeId3.read(path, (err, tags) => {
-            //             if (!err) {
-            //                 console.log('ID3 tags for ', path, tags);
-            //             }
-            //         });
-            //         // console.log('found: ', type, path, stat);
-            //     }
-            // });
-            // emitter.on('end', () => {
-            //     console.log('End!');
-            // });
+            try {
+                let data = await ipcCall('inspect-dir', {
+                    dir: dir.path,
+                });
+                console.log('inspection done:', data);
+            } catch (e) {
+                console.log('ERROR:', e);
+            } finally {
+                this.syncing = false;
+            }
         },
     },
     components: {},
