@@ -6,12 +6,8 @@ A learning project for myself.
 Learning Objectives
 --------------------
 
-With this project, I want to refresh / learn the following things:
+This project is mainly used as a learning platform to learn C++/Qt.
 
-* Elektron, the App framework for javascript
-* Project organization: How to organize files / modules / packages
-* Play music with Elektron
-* Handle MP3 tags in a (memory) DB
 
 
 Planned Features

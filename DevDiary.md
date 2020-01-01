@@ -10,6 +10,8 @@ document the progress.
 interest in python/Qt, as it is "yet another framework" and is nothing really new for me. So I stick to a more familiar environment:
 JavaScript, and try Electron as an App framework instead.
 
+**Note 2:** On 01.01.2020 (yeah, no joke), I dumped the progress so far AGAIN, and switch to C++ / Qt.
+
 11.11.2018 - Model / DB considerations
 -------------
 
@@ -282,7 +284,7 @@ Progress so far:
   It commits the relevant state changes when playing / changing song etc.
 - The Player view listens to the global state and allows controlling the play.
 - I organised the store into modules, to better separate them: For now, there is there is the
-  'actualSong' module, so the store contains of 'store.actualSong.*' for the actual playing song.
+  'actualSong' module, so the store contains of `store.actualSong.*` for the actual playing song.
 - Player component / PlayerService already supports loading, start/stop/pause and seeking a song! Wow,
   that was not so hard after all!
 
@@ -319,3 +321,18 @@ to make "RPC" calls (not quite correct, but let's stick by that name) to the
 main thread easier.
 
 I created a gist for future usage, maybe I will publish it as an NPM module some day: https://gist.github.com/bylexus/062e77b0ed2af3b516d8cc4d34d1d085
+
+01.01.2020
+-------------
+
+A new year, a new programming language. I start over with C++ / Qt, to get some deeper insights in C++ and to learn Qt.
+
+I started setting the project up with the Qt Creator IDE. It's not THAT intuitive, but works OK. I also decided to use CMake instead of the qt-own qmake
+build system, which turned out to be a bit of a pain: certain parts of Qt are modularized (e.g. Multimedia), but the Qt docs only show how to configure
+this with qmake. In the end, some Internet research did the thing, as always...
+
+I played a bit with a first main window. Using the Qt Designer is somewhat of a pain... It has only a subset of available Widgets, and defining sizing / layouts
+is, well, challenging...
+
+A first success for today: A main window works, you can select a song from a file dialog and it plays.
+

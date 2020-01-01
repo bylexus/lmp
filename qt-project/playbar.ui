@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayBar</class>
+ <widget class="QToolBar" name="PlayBar">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>219</width>
+    <height>24</height>
+   </rect>
+  </property>
+  <action name="actionPlay">
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="toolTip">
+    <string>Play</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="toolTip">
+    <string>Stop</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionLoadSong">
+   <property name="text">
+    <string>Load Song</string>
+   </property>
+   <property name="toolTip">
+    <string>Load Song</string>
+   </property>
+  </action>
+  <addaction name="actionPlay"/>
+  <addaction name="actionStop"/>
+  <addaction name="separator"/>
+  <addaction name="actionLoadSong"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
